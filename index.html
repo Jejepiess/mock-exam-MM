@@ -10,10 +10,11 @@
         textarea, input { width: 100%; }
         button { margin-top: 20px; padding: 10px 20px; }
         #result { margin-top: 20px; font-weight: bold; }
+        #incorrect { margin-top: 10px; color: red; }
     </style>
 </head>
 <body>
-    <h1>MOCK EXAM: MARKETING ENVIRONMENT</h1>
+    <h1>MOCK EXAM: MARKETING ENVIRONMENT MODULE 1</h1>
     
     <h2>I. IDENTIFICATION</h2>
     <div id="identification"></div>
@@ -23,6 +24,7 @@
     
     <button onclick="submitAnswers()">Submit Answers</button>
     <div id="result"></div>
+    <div id="incorrect"></div>
     
     <script>
         const identificationQuestions = [
@@ -83,23 +85,28 @@
         function submitAnswers() {
             let score = 0;
             let totalScore = 30;
+            let incorrectAnswers = [];
             
-            // Scoring Identification
             identificationQuestions.forEach((_, index) => {
                 let userAnswer = document.getElementById(`id_${index}`).value.trim().toLowerCase();
                 if (correctAnswers[index].some(answer => userAnswer.includes(answer))) {
                     score++;
+                } else {
+                    incorrectAnswers.push(`${index + 1}. Correct answer: ${correctAnswers[index].join(" or ")}`);
                 }
             });
 
-            // Scoring Enumeration
             enumerationQuestions.forEach((q, index) => {
                 let userAnswers = document.getElementById(`enum_${index}`).value.trim().toLowerCase().split("\n").map(a => a.trim());
                 let correctCount = userAnswers.filter(answer => q.answers.some(correct => answer.includes(correct))).length;
                 score += correctCount;
+                if (correctCount < q.answers.length) {
+                    incorrectAnswers.push(`${index + 1}. Correct answers: ${q.answers.join(", ")}`);
+                }
             });
 
             document.getElementById('result').innerText = `Your score: ${score} / ${totalScore}`;
+            document.getElementById('incorrect').innerHTML = `<strong>Incorrect Answers:</strong><br>${incorrectAnswers.join("<br>")}`;
         }
 
         loadQuestions();
