@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Environment Mock Exam</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin-bottom: 10px; }
+        textarea, input { width: 100%; }
+        button { margin-top: 20px; padding: 10px 20px; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>MOCK EXAM: MARKETING ENVIRONMENT</h1>
+    
+    <h2>I. IDENTIFICATION</h2>
+    <div id="identification"></div>
+    
+    <h2>II. ENUMERATION</h2>
+    <div id="enumeration"></div>
+    
+    <button onclick="submitAnswers()">Submit Answers</button>
+    <div id="result"></div>
+    
+    <script>
+        const identificationQuestions = [
+            "Elements that are directed by the organization and its marketers.",
+            "Elements affecting an organization's performance that cannot be altered by the organization and its marketers.",
+            "A defined consumer group which the marketing firm seeks to reach and serve.",
+            "More customer-oriented than those set by top management.",
+            "Reflects a concern for brand loyalty, measured by repeat purchases.",
+            "A set of unique features in a company's marketing program that attracts consumers.",
+            "The specific combination of marketing elements used to achieve objectives.",
+            "Rivalry among marketers who seek to satisfy particular markets.",
+            "The sum total of knowledge, beliefs, values, customs, and artifacts used to adapt to the environment.",
+            "A period characterized by falling prices.",
+            "A decline in buying power caused by rising price levels.",
+            "A sustained reduction in the inflation rate, caused by declining prices.",
+            "A market structure where many firms sell identical products.",
+            "A market structure with many buyers and many sellers.",
+            "A market structure where a few sellers control supply.",
+            "A market structure where a firm produces a product with no close substitute.",
+            "Knowledge of 'how to accomplish tasks and goods.'",
+            "The sequence of changes in an economy's business activity.",
+            "Marketing decisions characterized by numerous, vague laws.",
+            "The selection of a combination of marketing tools such as advertising and sales promotion."
+        ];
+
+        const correctAnswers = [
+            ["controllable factors"], ["uncontrollable factors"], ["target market"], ["marketing objectives"],
+            ["brand loyalty"], ["competitive advantage"], ["marketing mix"], ["competition"], ["culture"], ["deflation"],
+            ["inflation"], ["disinflation"], ["perfect competition"], ["monopolistic competition"], ["oligopoly"],
+            ["monopoly"], ["technology"], ["business cycle"], ["legal environment"], ["promotion mix"]
+        ];
+
+        const enumerationQuestions = [
+            { question: "Give the five (5) marketing environments:", answers: ["economic", "technological", "political", "sociocultural", "competitive"] },
+            { question: "Give the five (5) factors directed by the top management:", answers: ["mission", "vision", "corporate culture", "organizational objectives", "resources"] },
+            { question: "Give the five (5) factors directed by the marketers:", answers: ["product", "price", "place", "promotion", "people"] },
+            { question: "What are the three (3) types of marketing organizations:", answers: ["product-oriented", "market-oriented", "function-oriented"] },
+            { question: "What are the four (4) major factors of the marketing mix:", answers: ["product", "price", "place", "promotion"] },
+            { question: "What are the two (2) uncontrollable factors:", answers: ["economic", "political"] },
+            { question: "Give the seven (7) cultural factors under consumers as an uncontrollable factor:", answers: ["values", "language", "customs", "religion", "education", "social class", "lifestyle"] },
+            { question: "What are the four (4) basic types of market structures:", answers: ["perfect competition", "monopolistic competition", "oligopoly", "monopoly"] },
+            { question: "Give the three (3) other uncontrollable factors:", answers: ["legal", "technological", "competitive"] },
+            { question: "What are the four (4) phases of the business cycle:", answers: ["expansion", "peak", "contraction", "trough"] }
+        ];
+
+        function loadQuestions() {
+            let idSection = document.getElementById('identification');
+            identificationQuestions.forEach((q, index) => {
+                idSection.innerHTML += `<div class='question'><strong>${index + 1}. ${q}</strong> <input type='text' id='id_${index}' placeholder='Answer here'></div>`;
+            });
+
+            let enumSection = document.getElementById('enumeration');
+            enumerationQuestions.forEach((q, index) => {
+                enumSection.innerHTML += `<div class='question'><strong>${index + 1}. ${q.question}</strong> <textarea id='enum_${index}' placeholder='List answers here'></textarea></div>`;
+            });
+        }
+
+        function submitAnswers() {
+            let score = 0;
+            let totalScore = 30;
+            
+            // Scoring Identification
+            identificationQuestions.forEach((_, index) => {
+                let userAnswer = document.getElementById(`id_${index}`).value.trim().toLowerCase();
+                if (correctAnswers[index].some(answer => userAnswer.includes(answer))) {
+                    score++;
+                }
+            });
+
+            // Scoring Enumeration
+            enumerationQuestions.forEach((q, index) => {
+                let userAnswers = document.getElementById(`enum_${index}`).value.trim().toLowerCase().split("\n").map(a => a.trim());
+                let correctCount = userAnswers.filter(answer => q.answers.some(correct => answer.includes(correct))).length;
+                score += correctCount;
+            });
+
+            document.getElementById('result').innerText = `Your score: ${score} / ${totalScore}`;
+        }
+
+        loadQuestions();
+    </script>
+</body>
+</html>
